@@ -1,0 +1,78 @@
+body{
+    background: #000;
+}
+.com{
+    height: 600px;
+    width: 400px;
+    background-color: #fff;
+    margin: 0 auto;
+    position: relative;
+}
+.head{
+    background: darkblue;
+    height: 300px;
+}
+.hairCom{
+    height: 270px;
+    background-color: darkgray;
+    top: 30px;
+    /* overflow: hidden; */
+    position: relative;
+}
+.hairCom>div{
+    position: absolute;
+    z-index: 1;
+}
+.hairOne{
+    width: 30%;
+    height: 40px;
+    background-color: #673741;
+    border-left: 10px solid transparent;
+    border-bottom: 30px solid #673741;
+    border-radius: 0% 80% 0% 100%;
+    transform: rotate(-40deg);
+    margin-left: 50px;
+    margin-top: 30px;
+}
+.hairTwo{
+    width: 20%;
+    height: 40px;
+    background-color: #673741;
+    margin-left: 250px;
+    transform: rotate(20deg);
+    top: 80px;
+}
+.hairThree{
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 45px solid #673741;
+    transform: rotate(-130deg);
+    margin-top: 150px;
+    margin-left: 48px;
+}
+.hairFour{
+    width: 15%;
+    height: 60px;
+    background-color: #824149;
+    border-radius: 0 0 50% 50%;
+    transform: rotate(160deg);
+    margin-left: 50px;
+    margin-top: 90px;
+}
+.hairFive{
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+    border-bottom: 85px solid #824149;
+    transform: rotate(-110deg);
+    margin-top: 90px;
+    margin-left: 25px;
+}
+.face{
+    width: 70%;
+    height: 200px;
+    background-color: #FAD7B4;
+    position: absolute;
+    top: 100px;
+    left: 60px;
+    border-radius: 0 0 50% 50%;
+}
