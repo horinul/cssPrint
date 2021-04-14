@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <div class="com">
+    <div class="overHead">
+      <span class="hair1"></span>
+      <span class="hair2"></span>
+    </div>
+    <div class="head">
+      <div class="face">
+        <div class="eye1"></div>
+        <div class="eye2"></div>
+        <div class="mouseLeft"></div>
+        <div class="mouseRight"></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  let body = document.getElementsByTagName('body')[0]
+  let com = document.getElementsByClassName('com')[0]
+  let hair1 = document.getElementsByClassName('hair1')[0]
+  let hair2 = document.getElementsByClassName('hair2')[0]
+  let head = document.getElementsByClassName('head')[0]
+  let face = document.getElementsByClassName('face')[0]
+  let eye1 = document.getElementsByClassName('eye1')[0]
+  let eye2 = document.getElementsByClassName('eye2')[0]
+  let mouseLeft = document.getElementsByClassName('mouseLeft')[0]
+  let mouseRight = document.getElementsByClassName('mouseRight')[0]
+  let tmpClientX = null
+  let comToLeft = null
+  function jump(toLeft) {
+    console.info(toLeft)
+    com.style = `bottom:200px;height:300px;margin-left:${toLeft}px`
+    head.style = "width:200px;height:240px"
+    face.style = "width:160px;height:190px"
+    hair1.style = "left:20px"
+    hair2.style = "left:140px"
+    eye1.style = "margin-left:10px;margin-top:60px"
+    eye2.style = "margin-left:30px;margin-top:60px"
+    mouseLeft.style = "border-radius:0%;transform: rotate(-30deg);left:48px;top:80px"
+    mouseRight.style = "border-radius:0%;transform: rotate(30deg);left:84px;top:80px"
+  }
+  function drop() {
+    com.style = "height:220px;width:330px"
+    head.style = "width:300px;height:140px"
+    face.style = "width:260px;height:80px"
+    hair1.style = "left:60px"
+    hair2.style = "left:160px"
+    eye1.style = "margin-left:50px;margin-top:20px"
+    eye2.style = "margin-left:50px;margin-top:20px"
+    mouseLeft.style = "border-radius:0%;transform: rotate(30deg);left:120px;top:40px"
+    mouseRight.style = "border-radius:0%;transform: rotate(-30deg);left:110px;top:40px"
+  }
+  function changeToDefault() {
+    com.style = "height:250px;width:260px;"
+    head.style = "width:240px;height:185px"
+    face.style = "width:200px;height:130px"
+    hair1.style = "left:20px"
+    hair2.style = "left:140px"
+    eye1.style = "margin-left:25px;margin-top:40px"
+    eye2.style = "margin-left:40px;margin-top:40px"
+    mouseLeft.style = "border-radius:50%;transform: rotate(0deg);left:70px;top:70px"
+    mouseRight.style = "border-radius:50%;transform: rotate(0deg);left:100px;top:70px"
+  }
+  let toLeft = 0
+  body.onmousemove = function (event) {
+    if (tmpClientX - event.clientX > 0) {// left
+      console.info(toLeft, 'left')
+
+      jump(toLeft <= 0 ? 0 : toLeft--)
+      // changeToDefault()
+    } else if (tmpClientX - event.clientX < 0) {// right
+      console.info(toLeft, 'right')
+      jump(toLeft >= 100 ? 100 : toLeft++)
+      drop()
+    }
+    tmpClientX = event.clientX
+  }
+</script>
+
+</html>
