@@ -16,7 +16,8 @@ body {
   position: fixed;
   bottom: 0px;
   left: 0px;
-  transition: all 1s;
+  transition: all 1.5s;
+  will-change: auto;
 }
 
 .hair1 {
@@ -28,7 +29,7 @@ body {
   transform: rotate(60deg);
   left: 20px;
   top: 40px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .hair2 {
@@ -40,7 +41,7 @@ body {
   transform: rotate(-60deg);
   left: 140px;
   top: 40px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .head {
@@ -52,8 +53,8 @@ body {
   margin-left: 50%;
   transform: translateX(-50%);
   margin-top: 20%;
-  transition: all 1s;
-  /* transition: height 1s; */
+  transition: all 1.5s;
+  /* transition: height 1.5s; */
 }
 
 .face {
@@ -65,7 +66,7 @@ body {
   transform: translateX(-50%);
   margin-top: 10%;
   display: flex;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .eye1 {
@@ -75,7 +76,7 @@ body {
   transform: rotate(-40deg);
   margin-top: 40px;
   margin-left: 25px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .eye2 {
@@ -85,7 +86,7 @@ body {
   transform: rotate(40deg);
   margin-top: 40px;
   margin-left: 40px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .mouseLeft {
@@ -96,7 +97,7 @@ body {
   border-bottom: 4px solid #000;
   left: 70px;
   top: 70px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
 
 .mouseRight {
@@ -107,5 +108,5 @@ body {
   border-bottom: 4px solid #000;
   left: 100px;
   top: 70px;
-  transition: all 1s;
+  transition: all 1.5s;
 }
