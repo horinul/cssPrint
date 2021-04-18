@@ -17,6 +17,10 @@ body {
   bottom: 0px;
   left: 0px;
   transition: all 1.5s;
+<<<<<<< HEAD
+=======
+  will-change: auto;
+>>>>>>> e12915786baf4153eb883278f7bc13eeda782696
 }
 
 .hair1 {
@@ -53,6 +57,10 @@ body {
   transform: translateX(-50%);
   margin-top: 20%;
   transition: all 1.5s;
+<<<<<<< HEAD
+=======
+  /* transition: height 1.5s; */
+>>>>>>> e12915786baf4153eb883278f7bc13eeda782696
 }
 
 .face {
