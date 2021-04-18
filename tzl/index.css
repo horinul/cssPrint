@@ -1,40 +1,46 @@
-body{
+body {
     background: #000;
 }
-.com{
+
+.com {
     height: 600px;
     width: 400px;
     background-color: #fff;
     margin: 0 auto;
     position: relative;
 }
-.head{
+
+.head {
     background: darkblue;
     height: 300px;
 }
-.hairCom{
+
+.hairCom {
     height: 270px;
     background-color: darkgray;
     top: 30px;
     /* overflow: hidden; */
     position: relative;
 }
-.hairCom>div{
+
+.hairCom>div {
     position: absolute;
     z-index: 1;
 }
-.hairOne{
+
+.hairOne {
     width: 30%;
-    height: 40px;
+    height: 50px;
     background-color: #673741;
     border-left: 10px solid transparent;
     border-bottom: 30px solid #673741;
     border-radius: 0% 80% 0% 100%;
     transform: rotate(-40deg);
-    margin-left: 50px;
+    margin-left: 40px;
     margin-top: 30px;
 }
-.hairTwo{
+
+.hairTwo {
     width: 20%;
     height: 40px;
     background-color: #673741;
@@ -42,7 +48,8 @@ body{
     transform: rotate(20deg);
     top: 80px;
 }
-.hairThree{
+
+.hairThree {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-bottom: 45px solid #673741;
@@ -50,16 +57,8 @@ body{
     margin-top: 150px;
     margin-left: 48px;
 }
-.hairFour{
-    width: 15%;
-    height: 60px;
-    background-color: #824149;
-    border-radius: 0 0 50% 50%;
-    transform: rotate(160deg);
-    margin-left: 50px;
-    margin-top: 90px;
-}
-.hairFive{
+
+.hairFour {
     border-left: 45px solid transparent;
     border-right: 45px solid transparent;
     border-bottom: 85px solid #824149;
@@ -67,7 +66,44 @@ body{
     margin-top: 90px;
     margin-left: 25px;
 }
-.face{
+
+.hairFive {
+    width: 30%;
+    height: 40px;
+    background-color: #673741;
+    border-left: 10px solid transparent;
+    border-bottom: 30px solid #673741;
+    border-radius: 0% 80% 0% 100%;
+    transform: rotate(80deg);
+    margin-left: 30px;
+    margin-top: 140px;
+}
+
+.hairSix {
+    width: 10%;
+    height: 60px;
+    background-color: #673741;
+    border-left: 10px solid transparent;
+    /* border-bottom: 30px solid #673741; */
+    border-radius: 0% 80% 0% 100%;
+    transform: rotate(70deg);
+    margin-left: 40px;
+    margin-top: 140px;
+}
+
+.hairSeven {
+    width: 30%;
+    height: 100px;
+    background-color: #673741;
+    border-left: 10px solid transparent;
+    /* border-bottom: 30px solid #673741; */
+    border-radius: 0% 80% 0% 100%;
+    transform: rotate(30deg);
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
+.face {
     width: 70%;
     height: 200px;
     background-color: #FAD7B4;

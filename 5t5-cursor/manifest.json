@@ -1,0 +1,26 @@
+{
+  "name": "5t5-cursor",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "description",
+  "author": "beishen",
+  "icons": {
+    "16": "1.png",
+    "48": "1.png",
+    "128": "1.png"
+  },
+  "background": {
+    "page": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "index.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}

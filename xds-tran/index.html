@@ -12,8 +12,8 @@
 <body>
   <div class="com">
     <div class="overHead">
-      <span class="hair1"></span>
-      <span class="hair2"></span>
+      <div class="hair1"></div>
+      <div class="hair2"></div>
     </div>
     <div class="head">
       <div class="face">
@@ -26,6 +26,9 @@
   </div>
 </body>
 <script>
+  let toLeft = 0
+  let toTop = 0
+  let screenWidth = window.screen.width - 200
   let body = document.getElementsByTagName('body')[0]
   let com = document.getElementsByClassName('com')[0]
   let hair1 = document.getElementsByClassName('hair1')[0]
@@ -38,54 +41,75 @@
   let mouseRight = document.getElementsByClassName('mouseRight')[0]
   let tmpClientX = null
   let comToLeft = null
-  function jump(toLeft) {
-    console.info(toLeft)
-    com.style = `bottom:200px;height:300px;margin-left:${toLeft}px`
+  function jump(toLeft, toBottom) {
+    com.style = `bottom:${toBottom}px;height:300px;margin-left:${toLeft}px`
     head.style = "width:200px;height:240px"
     face.style = "width:160px;height:190px"
     hair1.style = "left:20px"
     hair2.style = "left:140px"
     eye1.style = "margin-left:10px;margin-top:60px"
     eye2.style = "margin-left:30px;margin-top:60px"
-    mouseLeft.style = "border-radius:0%;transform: rotate(-30deg);left:48px;top:80px"
-    mouseRight.style = "border-radius:0%;transform: rotate(30deg);left:84px;top:80px"
+    mouseLeft.style = "border-radius:0%;transform:rotate(-30deg);left:48px;top:80px"
+    mouseRight.style = "border-radius:0%;transform:rotate(30deg);left:84px;top:80px"
   }
-  function drop() {
-    com.style = "height:220px;width:330px"
+  function drop(toLeft) {
+    com.style = `height:220px;width:330px;margin-left:${toLeft}px`
     head.style = "width:300px;height:140px"
     face.style = "width:260px;height:80px"
     hair1.style = "left:60px"
     hair2.style = "left:160px"
     eye1.style = "margin-left:50px;margin-top:20px"
     eye2.style = "margin-left:50px;margin-top:20px"
-    mouseLeft.style = "border-radius:0%;transform: rotate(30deg);left:120px;top:40px"
-    mouseRight.style = "border-radius:0%;transform: rotate(-30deg);left:110px;top:40px"
+    mouseLeft.style = "border-radius:0%;transform:rotate(30deg);left:120px;top:40px"
+    mouseRight.style = "border-radius:0%;transform:rotate(-30deg);left:110px;top:40px"
   }
-  function changeToDefault() {
-    com.style = "height:250px;width:260px;"
+  function changeToDefault(toLeft) {
+    com.style = `height:250px;width:260px;margin-left:${toLeft}px`
     head.style = "width:240px;height:185px"
     face.style = "width:200px;height:130px"
     hair1.style = "left:20px"
     hair2.style = "left:140px"
     eye1.style = "margin-left:25px;margin-top:40px"
     eye2.style = "margin-left:40px;margin-top:40px"
-    mouseLeft.style = "border-radius:50%;transform: rotate(0deg);left:70px;top:70px"
-    mouseRight.style = "border-radius:50%;transform: rotate(0deg);left:100px;top:70px"
+    mouseLeft.style = "border-radius:50%;transform:rotate(0deg);left:70px;top:70px"
+    mouseRight.style = "border-radius:50%;transform:rotate(0deg);left:100px;top:70px"
   }
-  let toLeft = 0
-  body.onmousemove = function (event) {
-    if (tmpClientX - event.clientX > 0) {// left
-      console.info(toLeft, 'left')
-
-      jump(toLeft <= 0 ? 0 : toLeft--)
-      // changeToDefault()
-    } else if (tmpClientX - event.clientX < 0) {// right
-      console.info(toLeft, 'right')
-      jump(toLeft >= 100 ? 100 : toLeft++)
-      drop()
+  function getRandomToLeft() {
+    return (Math.random() * window.screen.width) / 3
+  }
+  function getRandomToBottom() {
+    return Math.random() * window.screen.height
+  }
+  function throttle(func, delay) {
+    var pre = Date.now()
+    return function () {
+      var context = this
+      var args = arguments
+      var now = Date.now()
+      if (now - pre >= delay) {
+        func.apply(context, args)
+        pre = Date.now()
+      }
     }
+  }
+  function changeEvent() {
+    let tmp = getRandomToLeft()
+    if (toLeft > 0 && tmpClientX - event.clientX > 0) {
+      toLeft = toLeft - tmp < 0 ? 0 : toLeft - tmp
+    } else if (toLeft < screenWidth && tmpClientX - event.clientX - 200 < 0) {
+      toLeft = toLeft + tmp > screenWidth ? screenWidth : toLeft + tmp
+    }
+    toBottom = getRandomToBottom()
+    jump(toLeft, toBottom)
+    setTimeout(() => {
+      drop(toLeft)
+    }, 800)
+    setTimeout(() => {
+      changeToDefault(toLeft)
+    }, 1400)
     tmpClientX = event.clientX
   }
+  body.addEventListener('mousemove', throttle(changeEvent, 2000))
 </script>
 
 </html>
