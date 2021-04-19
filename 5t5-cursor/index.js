@@ -1,55 +1,26 @@
-    function isMax(e) {
-      if (e.pageX <= 10) {
-        if (document.getElementById('left')) {
-          return null
-        }
-        let newEle = document.createElement('link')
-        newEle.setAttribute("rel", "stylesheet");
-        newEle.setAttribute("type", "text/css");
-        newEle.setAttribute("href", "left.css");
-        newEle.setAttribute('id', 'left')
-        document.body.appendChild(newEle);
-      }
-      else if (e.pageX >= window.innerWidth - 45) {
-        if (document.getElementById('right')) {
-          return null
-        }
-        let newEle = document.createElement('link')
-        newEle.setAttribute("rel", "stylesheet");
-        newEle.setAttribute("type", "text/css");
-        newEle.setAttribute("href", "right.css");
-        newEle.setAttribute('id', 'right')
-        document.body.appendChild(newEle);
-      } else if (e.pageY <=10) {
-        if (document.getElementById('top')) {
-          return null
-        }
-        let newEle = document.createElement('link')
-        newEle.setAttribute("rel", "stylesheet");
-        newEle.setAttribute("type", "text/css");
-        newEle.setAttribute("href", "top.css");
-        newEle.setAttribute('id', 'top')
-        document.body.appendChild(newEle);
-      }
-       else if (e.pageY >= window.innerHeight - 45) {
-        if (document.getElementById('bottom')) {
-          return null
-        }
-        let newEle = document.createElement('link')
-        newEle.setAttribute("rel", "stylesheet");
-        newEle.setAttribute("type", "text/css");
-        newEle.setAttribute("href", "bottom.css");
-        newEle.setAttribute('id', 'bottom')
-        document.body.appendChild(newEle);
-      }
-      else {
-        if (document.getElementsByTagName('link').length !== 0) {
-          for (let i = 0; i < document.getElementsByTagName('link').length; i++) {
-            let tmp = document.getElementsByTagName('link')[i]
-            document.body.removeChild(tmp)
-          }
-        }
-      }
-    }
+function isMax(e) {
+  if (!document.getElementById('link')) {
+    var newEle = document.createElement('link')
+    newEle.setAttribute("rel", "stylesheet");
+    newEle.setAttribute("type", "text/css");
+    newEle.setAttribute('id', 'link')
+    document.body.appendChild(newEle)
+  }
+  if (e.pageX <= 10) {
+    var newEle = document.createElement('img')
+    newEle.setAttribute("href", "./1.ico");
+    document.getElementById('link').setAttribute("href", chrome.extension.getURL('./left.css'));
 
-    document.addEventListener('mousemove', isMax)
+    document.body.appendChild(newEle)
+  } else if (e.pageX >= window.innerWidth - 45) {
+    document.getElementById('link').setAttribute("href", chrome.extension.getURL('./right.css'));
+  } else if (e.pageY <= 10) {
+    document.getElementById('link').setAttribute("href", chrome.extension.getURL('./top.css'));
+  } else if (e.pageY >= window.innerHeight - 45) {
+    document.getElementById('link').setAttribute("href", chrome.extension.getURL('./bottom.css'));
+  } else {
+    document.getElementById('link').setAttribute("href", chrome.extension.getURL('./default.css'));
+  }
+}
+
+document.addEventListener('mousemove', isMax)

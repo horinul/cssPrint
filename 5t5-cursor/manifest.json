@@ -20,7 +20,18 @@
       "js": [
         "index.js"
       ],
-      "run_at": "document_start"
+      "css": [
+        "default.css"
+      ],
+      "run_at": "document_end"
     }
+  ],
+  "web_accessible_resources": [
+    "index.js","default.css","left.css","right.css","top.css","bottom.css","1.ico","2.ico","3.ico","4.ico","5.ico"
+  ],
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ]
 }
