@@ -1,9 +1,3 @@
-  body {
-    margin: 0;
-    height: 100vh;
-    overflow: auto;
-  }
-
-  * {
-    cursor: url(2.ico), auto;
-  }
+* {
+  cursor: url(7.cur), auto;
+}
