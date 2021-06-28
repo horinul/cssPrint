@@ -10,8 +10,8 @@
 
 <body>
     <script src="./threeJS.js"></script>
-    <script src="https://techbrood.com/threejs/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://unpkg.com/three@0.88.0/examples/js/libs/tween.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="./tween.min.js"></script>
     <script>
         function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
             let shape = new THREE.Shape();
@@ -32,8 +32,6 @@
             });
 
             geometry.center();
-
-
             return geometry;
         }
         var scene = new THREE.Scene();
@@ -66,22 +64,31 @@
         var ctx = canvas.getContext('2d');
         ctx.fillStyle = '#fff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         ctx.beginPath();
         ctx.lineWidth = 3;
         ctx.strokeStyle = 'black';
         ctx.arc(200, 200, 190, 1, 200 * Math.PI);
         ctx.arc(200, 200, 140, 1, 200 * Math.PI);
         ctx.arc(200, 200, 100, 1, 200 * Math.PI);
+
         ctx.moveTo(310, 285);
         ctx.lineTo(355, 312);
         ctx.stroke();
+
+        ctx.moveTo(200, 100);
+        ctx.lineTo(200, 320);
+        ctx.stroke();
+
         ctx.closePath();
+
         ctx.beginPath();
         ctx.lineWidth = 40;
         ctx.strokeStyle = '#B4B0BF';
         ctx.arc(200, 200, 120, 1, 200 * Math.PI);
         ctx.stroke()
         ctx.closePath();
+
 
         var texture = new THREE.CanvasTexture(canvas);
         texture.wrapS = THREE.RepeatWrapping;
@@ -107,13 +114,40 @@
         ctx2.moveTo(305, 405);
         ctx2.lineTo(340, 430);
         ctx2.stroke();
+
+        ctx2.moveTo(110, 380);
+        ctx2.lineTo(280, 380);
+        ctx2.stroke();
+
+        ctx2.moveTo(110, 260);
+        ctx2.lineTo(280, 260);
+        ctx2.stroke();
+
         ctx2.closePath();
+
+        ctx2.beginPath()
+        ctx2.lineWidth = 120
+        ctx2.strokeStyle = '#00008B'
+        ctx2.moveTo(90, 320)
+        ctx2.lineTo(300, 320)
+        ctx2.stroke()
+        ctx2.closePath()
+
         ctx2.beginPath();
         ctx2.lineWidth = 40;
         ctx2.strokeStyle = '#B4B0BF';
         ctx2.arc(193, 320, 120, 1, 200 * Math.PI);
         ctx2.stroke()
         ctx2.closePath();
+
+        // ctx2.fillText('aaa',100,200)
+        // ctx.translate(200,200)
+        ctx2.font = "30px '微软雅黑'";
+        ctx2.rotate(30*Math.PI/180)
+        ctx2.strokeText("💧", 300, 240);
+        ctx2.font = "30px '微软雅黑'";
+        ctx2.rotate(-160*Math.PI/180)
+        ctx2.strokeText("💧", -380, 10);
 
         var texture2 = new THREE.CanvasTexture(canvas);
         texture2.wrapS = THREE.RepeatWrapping;
