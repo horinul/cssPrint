@@ -33,6 +33,7 @@
 
             geometry.center();
 
+
             return geometry;
         }
         var scene = new THREE.Scene();
@@ -63,11 +64,24 @@
         canvas.width = 512;
         canvas.height = 512;
         var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = 'red';
-        ctx.arc(200, 200, 180, 1, 200 * Math.PI);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'black';
+        ctx.arc(200, 200, 190, 1, 200 * Math.PI);
+        ctx.arc(200, 200, 140, 1, 200 * Math.PI);
+        ctx.arc(200, 200, 100, 1, 200 * Math.PI);
+        ctx.moveTo(310, 285);
+        ctx.lineTo(355, 312);
         ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.lineWidth = 40;
+        ctx.strokeStyle = '#B4B0BF';
+        ctx.arc(200, 200, 120, 1, 200 * Math.PI);
+        ctx.stroke()
+        ctx.closePath();
 
         var texture = new THREE.CanvasTexture(canvas);
         texture.wrapS = THREE.RepeatWrapping;
@@ -76,19 +90,30 @@
             map: texture,
             color: colorNormal.clone()
         });
-        let roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial.clone());
-        scene.add(roundedBox);
 
         var textureLoader = new THREE.TextureLoader(); // 纹理加载器
         var canvas = document.createElement("canvas");
         canvas.width = 512;
         canvas.height = 512;
         var ctx2 = canvas.getContext('2d');
+        ctx2.fillStyle = '#fff';
+        ctx2.fillRect(0, 0, canvas.width, canvas.height);
         ctx2.beginPath();
-        ctx2.lineWidth = 10;
-        ctx2.strokeStyle = 'red';
-        ctx2.arc(200, 320, 180, 1, 200 * Math.PI);
+        ctx2.lineWidth = 2;
+        ctx2.strokeStyle = 'black';
+        ctx2.arc(193, 320, 185, 1, 200 * Math.PI);
+        ctx2.arc(193, 320, 140, 1, 200 * Math.PI);
+        ctx2.arc(193, 320, 100, 1, 200 * Math.PI);
+        ctx2.moveTo(305, 405);
+        ctx2.lineTo(340, 430);
         ctx2.stroke();
+        ctx2.closePath();
+        ctx2.beginPath();
+        ctx2.lineWidth = 40;
+        ctx2.strokeStyle = '#B4B0BF';
+        ctx2.arc(193, 320, 120, 1, 200 * Math.PI);
+        ctx2.stroke()
+        ctx2.closePath();
 
         var texture2 = new THREE.CanvasTexture(canvas);
         texture2.wrapS = THREE.RepeatWrapping;
@@ -98,7 +123,7 @@
             color: colorNormal.clone()
         });
         // 歪打误撞，这里要分两批去操作
-        let roundedBox2 = new THREE.Mesh(roundedBoxGeometry,[ roundedBoxMaterial2.clone(),roundedBoxMaterial.clone()]);
+        let roundedBox2 = new THREE.Mesh(roundedBoxGeometry, [roundedBoxMaterial2, roundedBoxMaterial]);
         scene.add(roundedBox2);
 
         render();
@@ -108,7 +133,6 @@
             TWEEN.update();
             renderer.render(scene, camera);
         }
-
 
     </script>
 </body>
