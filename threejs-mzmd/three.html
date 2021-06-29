@@ -140,14 +140,59 @@
         ctx2.stroke()
         ctx2.closePath();
 
+        ctx2.beginPath();
+        ctx2.lineWidth = 4;
+        // ctx2.strokeStyle = 'red';
+        ctx2.arc(193, 320, 30, 1, 200 * Math.PI);
+        ctx2.stroke()
+        ctx2.closePath();
+
         // ctx2.fillText('aaa',100,200)
         // ctx.translate(200,200)
-        ctx2.font = "30px '微软雅黑'";
-        ctx2.rotate(30*Math.PI/180)
-        ctx2.strokeText("💧", 300, 240);
-        ctx2.font = "30px '微软雅黑'";
-        ctx2.rotate(-160*Math.PI/180)
-        ctx2.strokeText("💧", -380, 10);
+        // ctx2.font = "30px '微软雅黑'";
+        // ctx2.rotate(30 * Math.PI / 180)
+        // ctx2.strokeText("💧", 305, 240);
+        // ctx2.rotate(30 * Math.PI / 180)
+        // ctx2.strokeText("💧", 358, 55);
+        // ctx2.rotate(25 * Math.PI / 180)
+        // ctx2.strokeText("💧", 320, -100);
+        // ctx2.rotate(20 * Math.PI / 180)
+        // ctx2.strokeText("💧", 240, -210);
+        // ctx2.rotate(25 * Math.PI / 180)
+        // ctx2.strokeText("💧", 100, -290);
+        // ctx2.rotate(30 * Math.PI / 180)
+        // ctx2.strokeText("💧", -85, -300);
+        ctx2.lineWidth = 6;
+        var gradient = ctx.createLinearGradient(174, 260, 300, 300);
+        gradient.addColorStop(0, "#6A5ACD");
+        gradient.addColorStop(1, "#00BFFF");
+        ctx2.fillStyle = gradient
+        ctx2.beginPath();
+        ctx2.moveTo(220, 312);
+        ctx2.bezierCurveTo(311, 283, 310, 346, 220, 321);
+        ctx2.moveTo(213, 300);
+        ctx2.bezierCurveTo(277, 233, 313, 297, 218, 310);
+        ctx2.moveTo(200, 295);
+        ctx2.bezierCurveTo(229, 204, 295, 242, 210, 299);
+        ctx2.moveTo(187, 294);
+        ctx2.bezierCurveTo(154, 199, 232, 200, 199, 294);
+        ctx2.moveTo(174, 298);
+        ctx2.bezierCurveTo(94, 238, 168, 199, 184, 292);
+        ctx2.moveTo(166, 312);
+        ctx2.bezierCurveTo(70, 294, 110, 225, 172, 304);
+        ctx2.moveTo(166, 325);
+        ctx2.bezierCurveTo(80, 346, 80, 291, 166, 312);
+        ctx2.moveTo(170, 339);
+        ctx2.bezierCurveTo(117, 398, 83, 349, 162, 327);
+        ctx2.moveTo(185, 350);
+        ctx2.bezierCurveTo(166, 435, 102, 396, 174, 343);
+        ctx2.moveTo(204, 351);
+        ctx2.bezierCurveTo(229, 429, 162, 426, 186, 350);
+        ctx2.moveTo(216, 340);
+        ctx2.bezierCurveTo(294, 389, 233, 429, 205, 350);
+        ctx2.moveTo(220, 325);
+        ctx2.bezierCurveTo(321, 334, 285, 395, 216, 334);
+        ctx2.fill();
 
         var texture2 = new THREE.CanvasTexture(canvas);
         texture2.wrapS = THREE.RepeatWrapping;
