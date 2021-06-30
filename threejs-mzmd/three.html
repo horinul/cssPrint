@@ -163,51 +163,105 @@
         gradient.addColorStop(1, "#00BFFF");
         ctx2.fillStyle = gradient
         ctx2.beginPath();
-        ctx2.moveTo(220, 312);
-        ctx2.bezierCurveTo(311, 283, 310, 346, 220, 321);
-        ctx2.moveTo(213, 300);
-        ctx2.bezierCurveTo(277, 233, 313, 297, 218, 310);
-        ctx2.moveTo(200, 295);
-        ctx2.bezierCurveTo(229, 204, 295, 242, 210, 299);
-        ctx2.moveTo(187, 294);
-        ctx2.bezierCurveTo(154, 199, 232, 200, 199, 294);
-        ctx2.moveTo(174, 298);
-        ctx2.bezierCurveTo(94, 238, 168, 199, 184, 292);
-        ctx2.moveTo(166, 312);
-        ctx2.bezierCurveTo(70, 294, 110, 225, 172, 304);
-        ctx2.moveTo(166, 325);
-        ctx2.bezierCurveTo(80, 346, 80, 291, 166, 312);
-        ctx2.moveTo(170, 339);
-        ctx2.bezierCurveTo(117, 398, 83, 349, 162, 327);
-        ctx2.moveTo(185, 350);
-        ctx2.bezierCurveTo(166, 435, 102, 396, 174, 343);
-        ctx2.moveTo(204, 351);
-        ctx2.bezierCurveTo(229, 429, 162, 426, 186, 350);
-        ctx2.moveTo(216, 340);
-        ctx2.bezierCurveTo(294, 389, 233, 429, 205, 350);
-        ctx2.moveTo(220, 325);
-        ctx2.bezierCurveTo(321, 334, 285, 395, 216, 334);
+
+        // ctx2.moveTo(220, 312);
+        // ctx2.bezierCurveTo(311, 283, 310, 346, 220, 321);
+        // ctx2.moveTo(213, 300);
+        // ctx2.bezierCurveTo(277, 233, 313, 297, 218, 310);
+        // ctx2.moveTo(200, 295);
+        // ctx2.bezierCurveTo(229, 204, 295, 242, 210, 299);
+        // ctx2.moveTo(187, 294);
+        // ctx2.bezierCurveTo(154, 199, 232, 200, 199, 294);
+        // ctx2.moveTo(174, 298);
+        // ctx2.bezierCurveTo(94, 238, 168, 199, 184, 292);
+        // ctx2.moveTo(166, 312);
+        // ctx2.bezierCurveTo(70, 294, 110, 225, 172, 304);
+        // ctx2.moveTo(166, 325);
+        // ctx2.bezierCurveTo(80, 346, 80, 291, 166, 312);
+        // ctx2.moveTo(170, 339);
+        // ctx2.bezierCurveTo(117, 398, 83, 349, 162, 327);
+        // ctx2.moveTo(185, 350);
+        // ctx2.bezierCurveTo(166, 435, 102, 396, 174, 343);
+        // ctx2.moveTo(204, 351);
+        // ctx2.bezierCurveTo(229, 429, 162, 426, 186, 350);
+        // ctx2.moveTo(216, 340);
+        // ctx2.bezierCurveTo(294, 389, 233, 429, 205, 350);
+        // ctx2.moveTo(220, 325);
+        // ctx2.bezierCurveTo(321, 334, 285, 395, 216, 334);
+        var startingX = 194, startingY = 296, firstX = 178, firstY = 242, secondX = 215, secondY = 243, endingX = 194, endingY = 297;
+
+ctx2.moveTo( startingX, startingY );
+ctx2.bezierCurveTo( firstX, firstY, secondX, secondY, endingX, endingY );
+
+ctx2.moveTo( startingX + 6, startingY + 12 )
+ctx2.bezierCurveTo( firstX + 25, firstY - 7, secondX + 33, secondY + 16, endingX, endingY + 10 );
+
+ctx2.moveTo( startingX + 4, startingY + 19 )
+ctx2.bezierCurveTo( firstX + 61, firstY + 4, secondX + 57, secondY + 43, endingX - 4, endingY + 16 );
+
+ctx2.moveTo( startingX + 2, startingY + 23 )
+ctx2.bezierCurveTo( firstX + 90, firstY + 29, secondX + 53, secondY + 76, endingX + 5, endingY + 17 );
+
+ctx2.moveTo( startingX + 9, startingY + 25 )
+ctx2.bezierCurveTo( firstX + 92, firstY + 63, secondX + 57, secondY + 97, endingX + 8, endingY + 26 );
+
+ctx2.moveTo( startingX + 7, startingY + 30 )
+ctx2.bezierCurveTo( firstX + 101, firstY + 94, secondX + 35, secondY + 131, endingX + 8, endingY + 25 );
+
+ctx2.moveTo( startingX + 7, startingY + 33 )
+ctx2.bezierCurveTo( firstX + 84, firstY + 122, secondX + 16, secondY + 148, endingX + 5, endingY + 31 );
+
+ctx2.moveTo( startingX - 3, startingY + 33 )
+ctx2.bezierCurveTo( firstX + 67, firstY + 144, secondX - 8, secondY + 156, endingX, endingY + 36 );
+
+ctx2.moveTo( startingX - 6, startingY + 30 )
+ctx2.bezierCurveTo( firstX + 37, firstY + 161, secondX - 42, secondY + 155, endingX - 3, endingY + 33 );
+
+ctx2.moveTo( startingX - 10, startingY + 31 )
+ctx2.bezierCurveTo( firstX + 8, firstY + 165, secondX - 72, secondY + 138, endingX - 7, endingY + 37 );
+
+ctx2.moveTo( startingX - 13, startingY + 31 )
+ctx2.bezierCurveTo( firstX - 25, firstY + 153, secondX - 92, secondY + 119, endingX - 15, endingY + 32 );
+
+ctx2.moveTo( startingX - 17, startingY + 25 )
+ctx2.bezierCurveTo( firstX - 49, firstY + 130, secondX - 106, secondY + 87, endingX - 20, endingY + 26 );
+
+ctx2.moveTo( startingX - 14, startingY + 16 )
+ctx2.bezierCurveTo( firstX - 68, firstY + 103, secondX - 103, secondY + 56, endingX - 18, endingY + 19 );
+
+ctx2.moveTo( startingX - 14, startingY + 14 )
+ctx2.bezierCurveTo( firstX - 70, firstY + 67, secondX - 90, secondY + 26, endingX - 16, endingY + 13 );
+
+ctx2.moveTo( startingX - 8, startingY + 14 )
+ctx2.bezierCurveTo( firstX - 57, firstY + 31, secondX - 56, secondY - 3, endingX - 13, endingY + 12 );
+
+ctx2.moveTo( startingX - 2, startingY + 14 )
+ctx2.bezierCurveTo( firstX - 33, firstY + 4, secondX - 22, secondY - 7, endingX - 9, endingY + 10 );
+
+
+
+
         ctx2.fill();
         ctx2.closePath()
 
         ctx2.beginPath();
         ctx2.lineWidth = 4;
         ctx2.fillStyle = '#00008B';
-        ctx2.arc(193, 320, 35, 1, 200 * Math.PI);
+        ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
         ctx2.fill()
         ctx2.closePath();
 
-        ctx2.beginPath();
-        ctx2.fillStyle = 'white';
-        ctx2.arc(193, 320, 100, 3.8, 5.65);
-        ctx2.fill();
-        ctx2.closePath()
+        // ctx2.beginPath();
+        // ctx2.fillStyle = 'white';
+        // ctx2.arc(193, 320, 100, 3.8, 5.65);
+        // ctx2.fill();
+        // ctx2.closePath()
 
-        ctx2.beginPath();
-        ctx2.fillStyle = 'white';
-        ctx2.arc(193, 320, 100, 6.9, 8.84);
-        ctx2.fill();
-        ctx2.closePath()
+        // ctx2.beginPath();
+        // ctx2.fillStyle = 'white';
+        // ctx2.arc(193, 320, 100, 6.9, 8.84);
+        // ctx2.fill();
+        // ctx2.closePath()
 
         var texture2 = new THREE.CanvasTexture(canvas);
         texture2.wrapS = THREE.RepeatWrapping;
