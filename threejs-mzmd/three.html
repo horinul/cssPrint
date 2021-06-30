@@ -12,276 +12,335 @@
     <script src="./threeJS.js"></script>
     <script src="OrbitControls.js"></script>
     <script src="./tween.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <div style="position: absolute; padding: 20px;" id="app">
+        切换样式 {{selectStyle}}
+        <el-radio-group v-model="selectStyle" @change="clickRadio">
+            <el-radio-button label="default"></el-radio-button>
+            <el-radio-button label="white"></el-radio-button>
+            <el-radio-button label="black"></el-radio-button>
+            <el-radio-button label="other"></el-radio-button>
+        </el-radio-group>
+    </div>
+    <!-- <canvas id="canvas1"></canvas> -->
+    <!-- <canvas id="canvas2"></canvas> -->
+    <!-- <div v-if="isLoading" class="loading">加载中...</div> -->
+    <!-- <style>
+        .loading {
+            position: fixed;
+            left: 50%;
+            right: 50%;
+            top: 50%;
+            right: 50%;
+            min-width: 200px;
+        }
+    </style> -->
     <script>
-        function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
-            let shape = new THREE.Shape();
-            let eps = 0.00001;
-            let radius = radius0 - eps;
-            shape.absarc(eps, eps, eps, -Math.PI / 2, -Math.PI, true);
-            shape.absarc(eps, height - radius * 2, eps, Math.PI, Math.PI / 2, true);
-            shape.absarc(width - radius * 2, height - radius * 2, eps, Math.PI / 2, 0, true);
-            shape.absarc(width - radius * 2, eps, eps, 0, -Math.PI / 2, true);
-            let geometry = new THREE.ExtrudeBufferGeometry(shape, {
-                amount: depth - radius0 * 2,
-                bevelEnabled: true,
-                bevelSegments: smoothness * 2,
-                steps: 1,
-                bevelSize: radius,
-                bevelThickness: radius0,
-                curveSegments: smoothness
-            });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selectStyle: 'default',
+                eyeBack: {
+                    default: '#00008B',
+                    white: '#fff',
+                    black: '',
+                    other: ''
+                },
+                lineColor: {
+                    default: 'black',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                eyesColor: {
+                    default: ["#6A5ACD", "#00BFFF"],
+                    white: ["#6A5ACD", "#00BFFF"],
+                    black: '',
+                    other: ''
+                },
+                midCircleBac: {
+                    default: '#B4B0BF',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                overall: {
+                    default: '#fff',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                eyesUpDown: {
+                    default: 'white',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                eyesCirInsideLine: {
+                    default: '#5d05f5',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                eyesCirOutsideLine: {
+                    default: '#ccb1fa',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                wholeColor: {
+                    default: '0xF5F5F5',
+                    white: '#ffffff',
+                    black: '',
+                    other: ''
+                },
+                // isLoading: false
+            },
+            watch: {
+                selectStyle(newVal, oldVal) {
+                    this.$nextTick(() => {
+                        this.init()
+                    })
+                    this.$forceUpdate();
+                }
+            },
+            created() {
+                this.$nextTick(() => {
+                    this.init()
+                })
+            },
+            methods: {
+                clickRadio(label) {
+                    this.init()
+                },
+                init() {
+                    function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
+                        let shape = new THREE.Shape();
+                        let eps = 0.00001;
+                        let radius = radius0 - eps;
+                        shape.absarc(eps, eps, eps, -Math.PI / 2, -Math.PI, true);
+                        shape.absarc(eps, height - radius * 2, eps, Math.PI, Math.PI / 2, true);
+                        shape.absarc(width - radius * 2, height - radius * 2, eps, Math.PI / 2, 0, true);
+                        shape.absarc(width - radius * 2, eps, eps, 0, -Math.PI / 2, true);
+                        let geometry = new THREE.ExtrudeBufferGeometry(shape, {
+                            amount: depth - radius0 * 2,
+                            bevelEnabled: true,
+                            bevelSegments: smoothness * 2,
+                            steps: 1,
+                            bevelSize: radius,
+                            bevelThickness: radius0,
+                            curveSegments: smoothness
+                        });
 
-            geometry.center();
-            return geometry;
-        }
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(2, 10, 7).setLength(17);
-        camera.lookAt(scene.position);
-        var renderer = new THREE.WebGLRenderer({
-            antialias: true
-        });
-        renderer.setClearColor(0xffffff);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+                        geometry.center();
+                        return geometry;
+                    }
+                    var scene = new THREE.Scene();
+                    var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 1000);
+                    camera.position.set(2, 10, 7).setLength(17);
+                    camera.lookAt(scene.position);
+                    var renderer = new THREE.WebGLRenderer({
+                        antialias: true
+                    });
+                    renderer.setClearColor(0xffffff);
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    document.body.appendChild(renderer.domElement);
 
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-        scene.add(new THREE.AmbientLight(0xffffff, .5));
-        var light = new THREE.DirectionalLight(0xffffff, .5);
-        light.position.setScalar(10);
-        scene.add(light);
+                    scene.add(new THREE.AmbientLight(0xffffff, .5));
+                    var light = new THREE.DirectionalLight(0xffffff, .5);
+                    light.position.setScalar(10);
+                    scene.add(light);
 
+                    var roundedBoxGeometry = createBoxWithRoundedEdges(1, 1, 1, .125, 280);
+                    roundedBoxGeometry.computeVertexNormals();
+                    roundedBoxGeometry.translate(0, 0, 0);
+                    var colorNormal = new THREE.Color(this.wholeColor[this.selectStyle]);
+                    var textureLoader = new THREE.TextureLoader(); // 纹理加载器
+                    var canvas = document.createElement("canvas");
+                    // var canvas = document.getElementById('canvas1')
+                    canvas.width = 512;
+                    canvas.height = 512;
+                    var ctx = canvas.getContext('2d');
+                    ctx.fillStyle = this.overall[this.selectStyle];
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        var roundedBoxGeometry = createBoxWithRoundedEdges(1, 1, 1, .125, 280);
-        roundedBoxGeometry.computeVertexNormals();
-        roundedBoxGeometry.translate(0, 0, 0);
-        var colorNormal = new THREE.Color("0xF5F5F5");
-        var textureLoader = new THREE.TextureLoader(); // 纹理加载器
-        var canvas = document.createElement("canvas");
-        canvas.width = 512;
-        canvas.height = 512;
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = this.lineColor[this.selectStyle];
+                    ctx.arc(200, 200, 190, 1, 200 * Math.PI);
+                    ctx.arc(200, 200, 140, 1, 200 * Math.PI);
+                    ctx.arc(200, 200, 100, 1, 200 * Math.PI);
 
-        ctx.beginPath();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = 'black';
-        ctx.arc(200, 200, 190, 1, 200 * Math.PI);
-        ctx.arc(200, 200, 140, 1, 200 * Math.PI);
-        ctx.arc(200, 200, 100, 1, 200 * Math.PI);
+                    ctx.moveTo(310, 285);
+                    ctx.lineTo(355, 312);
+                    ctx.stroke();
 
-        ctx.moveTo(310, 285);
-        ctx.lineTo(355, 312);
-        ctx.stroke();
+                    ctx.moveTo(200, 100);
+                    ctx.lineTo(200, 320);
+                    ctx.stroke();
 
-        ctx.moveTo(200, 100);
-        ctx.lineTo(200, 320);
-        ctx.stroke();
+                    ctx.closePath();
 
-        ctx.closePath();
+                    ctx.beginPath();
+                    ctx.lineWidth = 40;
+                    ctx.strokeStyle = this.midCircleBac[this.selectStyle];
+                    ctx.arc(200, 200, 120, 1, 200 * Math.PI);
+                    ctx.stroke()
+                    ctx.closePath();
 
-        ctx.beginPath();
-        ctx.lineWidth = 40;
-        ctx.strokeStyle = '#B4B0BF';
-        ctx.arc(200, 200, 120, 1, 200 * Math.PI);
-        ctx.stroke()
-        ctx.closePath();
+                    var texture = new THREE.CanvasTexture(canvas);
+                    texture.wrapS = THREE.RepeatWrapping;
+                    texture.wrapT = THREE.RepeatWrapping;
+                    var roundedBoxMaterial = new THREE.MeshLambertMaterial({
+                        map: texture,
+                        color: colorNormal.clone()
+                    });
 
+                    var textureLoader = new THREE.TextureLoader(); // 纹理加载器
+                    var canvas = document.createElement("canvas");
+                    // var canvas = document.getElementById('canvas2')
+                    canvas.width = 512;
+                    canvas.height = 512;
+                    var ctx2 = canvas.getContext('2d');
+                    ctx2.fillStyle = this.overall[this.selectStyle];
+                    ctx2.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx2.beginPath();
+                    ctx2.lineWidth = 2;
+                    ctx2.strokeStyle = this.lineColor[this.selectStyle];
+                    ctx2.arc(193, 320, 185, 1, 200 * Math.PI);
+                    ctx2.arc(193, 320, 140, 1, 200 * Math.PI);
+                    ctx2.arc(193, 320, 100, 1, 200 * Math.PI);
+                    ctx2.moveTo(305, 405);
+                    ctx2.lineTo(340, 430);
+                    ctx2.stroke();
 
-        var texture = new THREE.CanvasTexture(canvas);
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        var roundedBoxMaterial = new THREE.MeshLambertMaterial({
-            map: texture,
-            color: colorNormal.clone()
-        });
+                    ctx2.moveTo(110, 380);
+                    ctx2.lineTo(280, 380);
+                    ctx2.stroke();
 
-        var textureLoader = new THREE.TextureLoader(); // 纹理加载器
-        var canvas = document.createElement("canvas");
-        canvas.width = 512;
-        canvas.height = 512;
-        var ctx2 = canvas.getContext('2d');
-        ctx2.fillStyle = '#fff';
-        ctx2.fillRect(0, 0, canvas.width, canvas.height);
-        ctx2.beginPath();
-        ctx2.lineWidth = 2;
-        ctx2.strokeStyle = 'black';
-        ctx2.arc(193, 320, 185, 1, 200 * Math.PI);
-        ctx2.arc(193, 320, 140, 1, 200 * Math.PI);
-        ctx2.arc(193, 320, 100, 1, 200 * Math.PI);
-        ctx2.moveTo(305, 405);
-        ctx2.lineTo(340, 430);
-        ctx2.stroke();
+                    ctx2.moveTo(110, 260);
+                    ctx2.lineTo(280, 260);
+                    ctx2.stroke();
 
-        ctx2.moveTo(110, 380);
-        ctx2.lineTo(280, 380);
-        ctx2.stroke();
+                    ctx2.closePath();
 
-        ctx2.moveTo(110, 260);
-        ctx2.lineTo(280, 260);
-        ctx2.stroke();
+                    ctx2.beginPath()
+                    ctx2.lineWidth = 120
+                    ctx2.strokeStyle = this.eyeBack[this.selectStyle]
+                    ctx2.moveTo(90, 320)
+                    ctx2.lineTo(300, 320)
+                    ctx2.stroke()
+                    ctx2.closePath()
 
-        ctx2.closePath();
+                    ctx2.beginPath();
+                    ctx2.lineWidth = 40;
+                    ctx2.strokeStyle = this.midCircleBac[this.selectStyle];
+                    ctx2.arc(193, 320, 120, 1, 200 * Math.PI);
+                    ctx2.stroke()
+                    ctx2.closePath();
 
-        ctx2.beginPath()
-        ctx2.lineWidth = 120
-        ctx2.strokeStyle = '#00008B'
-        ctx2.moveTo(90, 320)
-        ctx2.lineTo(300, 320)
-        ctx2.stroke()
-        ctx2.closePath()
+                    ctx2.lineWidth = 6;
+                    var gradient = ctx.createLinearGradient(174, 260, 300, 300);
+                    gradient.addColorStop(0, this.eyesColor[this.selectStyle][0]);
+                    gradient.addColorStop(1, this.eyesColor[this.selectStyle][1]);
+                    ctx2.fillStyle = gradient
+                    ctx2.beginPath();
+                    var startingX = 194, startingY = 296, firstX = 178, firstY = 242, secondX = 215, secondY = 243, endingX = 194, endingY = 297;
+                    ctx2.moveTo(startingX, startingY);
+                    ctx2.bezierCurveTo(firstX, firstY, secondX, secondY, endingX, endingY);
+                    ctx2.moveTo(startingX + 6, startingY + 12)
+                    ctx2.bezierCurveTo(firstX + 25, firstY - 7, secondX + 33, secondY + 16, endingX, endingY + 10);
+                    ctx2.moveTo(startingX + 4, startingY + 19)
+                    ctx2.bezierCurveTo(firstX + 61, firstY + 4, secondX + 57, secondY + 43, endingX - 4, endingY + 16);
+                    ctx2.moveTo(startingX + 2, startingY + 23)
+                    ctx2.bezierCurveTo(firstX + 90, firstY + 29, secondX + 53, secondY + 76, endingX + 5, endingY + 17);
+                    ctx2.moveTo(startingX + 9, startingY + 25)
+                    ctx2.bezierCurveTo(firstX + 92, firstY + 63, secondX + 57, secondY + 97, endingX + 8, endingY + 26);
+                    ctx2.moveTo(startingX + 7, startingY + 30)
+                    ctx2.bezierCurveTo(firstX + 101, firstY + 94, secondX + 35, secondY + 131, endingX + 8, endingY + 25);
+                    ctx2.moveTo(startingX + 7, startingY + 33)
+                    ctx2.bezierCurveTo(firstX + 84, firstY + 122, secondX + 16, secondY + 148, endingX + 5, endingY + 31);
+                    ctx2.moveTo(startingX - 3, startingY + 33)
+                    ctx2.bezierCurveTo(firstX + 67, firstY + 144, secondX - 8, secondY + 156, endingX, endingY + 36);
+                    ctx2.moveTo(startingX - 6, startingY + 30)
+                    ctx2.bezierCurveTo(firstX + 37, firstY + 161, secondX - 42, secondY + 155, endingX - 3, endingY + 33);
+                    ctx2.moveTo(startingX - 10, startingY + 31)
+                    ctx2.bezierCurveTo(firstX + 8, firstY + 165, secondX - 72, secondY + 138, endingX - 7, endingY + 37);
+                    ctx2.moveTo(startingX - 13, startingY + 31)
+                    ctx2.bezierCurveTo(firstX - 25, firstY + 153, secondX - 92, secondY + 119, endingX - 15, endingY + 32);
+                    ctx2.moveTo(startingX - 17, startingY + 25)
+                    ctx2.bezierCurveTo(firstX - 49, firstY + 130, secondX - 106, secondY + 87, endingX - 20, endingY + 26);
+                    ctx2.moveTo(startingX - 14, startingY + 16)
+                    ctx2.bezierCurveTo(firstX - 68, firstY + 103, secondX - 103, secondY + 56, endingX - 18, endingY + 19);
+                    ctx2.moveTo(startingX - 14, startingY + 14)
+                    ctx2.bezierCurveTo(firstX - 70, firstY + 67, secondX - 90, secondY + 26, endingX - 16, endingY + 13);
+                    ctx2.moveTo(startingX - 8, startingY + 14)
+                    ctx2.bezierCurveTo(firstX - 57, firstY + 31, secondX - 56, secondY - 3, endingX - 13, endingY + 12);
+                    ctx2.moveTo(startingX - 2, startingY + 14)
+                    ctx2.bezierCurveTo(firstX - 33, firstY + 4, secondX - 22, secondY - 7, endingX - 9, endingY + 10);
+                    ctx2.fill();
+                    ctx2.closePath()
 
-        ctx2.beginPath();
-        ctx2.lineWidth = 40;
-        ctx2.strokeStyle = '#B4B0BF';
-        ctx2.arc(193, 320, 120, 1, 200 * Math.PI);
-        ctx2.stroke()
-        ctx2.closePath();
+                    ctx2.beginPath();
+                    ctx2.lineWidth = 4;
+                    ctx2.fillStyle = this.eyeBack[this.selectStyle];
+                    ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
+                    ctx2.fill()
+                    ctx2.closePath();
 
+                    ctx2.beginPath();
+                    ctx2.lineWidth = 4;
+                    ctx2.strokeStyle = this.eyesCirInsideLine[this.selectStyle];
+                    ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
+                    ctx2.stroke()
+                    ctx2.closePath();
 
+                    ctx2.beginPath();
+                    ctx2.lineWidth = 4;
+                    ctx2.strokeStyle = this.eyesCirOutsideLine[this.selectStyle];
+                    ctx2.arc(192, 320, 80, 1, 200 * Math.PI);
+                    ctx2.stroke()
+                    ctx2.closePath();
 
-        // ctx2.fillText('aaa',100,200)
-        // ctx.translate(200,200)
-        // ctx2.font = "30px '微软雅黑'";
-        // ctx2.rotate(30 * Math.PI / 180)
-        // ctx2.strokeText("💧", 305, 240);
-        // ctx2.rotate(30 * Math.PI / 180)
-        // ctx2.strokeText("💧", 358, 55);
-        // ctx2.rotate(25 * Math.PI / 180)
-        // ctx2.strokeText("💧", 320, -100);
-        // ctx2.rotate(20 * Math.PI / 180)
-        // ctx2.strokeText("💧", 240, -210);
-        // ctx2.rotate(25 * Math.PI / 180)
-        // ctx2.strokeText("💧", 100, -290);
-        // ctx2.rotate(30 * Math.PI / 180)
-        // ctx2.strokeText("💧", -85, -300);
-        ctx2.lineWidth = 6;
-        var gradient = ctx.createLinearGradient(174, 260, 300, 300);
-        gradient.addColorStop(0, "#6A5ACD");
-        gradient.addColorStop(1, "#00BFFF");
-        ctx2.fillStyle = gradient
-        ctx2.beginPath();
+                    ctx2.beginPath();
+                    ctx2.fillStyle = this.eyesUpDown[this.selectStyle];
+                    ctx2.arc(193, 320, 100, 3.8, 5.65);
+                    ctx2.fill();
+                    ctx2.closePath()
 
-        // ctx2.moveTo(220, 312);
-        // ctx2.bezierCurveTo(311, 283, 310, 346, 220, 321);
-        // ctx2.moveTo(213, 300);
-        // ctx2.bezierCurveTo(277, 233, 313, 297, 218, 310);
-        // ctx2.moveTo(200, 295);
-        // ctx2.bezierCurveTo(229, 204, 295, 242, 210, 299);
-        // ctx2.moveTo(187, 294);
-        // ctx2.bezierCurveTo(154, 199, 232, 200, 199, 294);
-        // ctx2.moveTo(174, 298);
-        // ctx2.bezierCurveTo(94, 238, 168, 199, 184, 292);
-        // ctx2.moveTo(166, 312);
-        // ctx2.bezierCurveTo(70, 294, 110, 225, 172, 304);
-        // ctx2.moveTo(166, 325);
-        // ctx2.bezierCurveTo(80, 346, 80, 291, 166, 312);
-        // ctx2.moveTo(170, 339);
-        // ctx2.bezierCurveTo(117, 398, 83, 349, 162, 327);
-        // ctx2.moveTo(185, 350);
-        // ctx2.bezierCurveTo(166, 435, 102, 396, 174, 343);
-        // ctx2.moveTo(204, 351);
-        // ctx2.bezierCurveTo(229, 429, 162, 426, 186, 350);
-        // ctx2.moveTo(216, 340);
-        // ctx2.bezierCurveTo(294, 389, 233, 429, 205, 350);
-        // ctx2.moveTo(220, 325);
-        // ctx2.bezierCurveTo(321, 334, 285, 395, 216, 334);
-        var startingX = 194, startingY = 296, firstX = 178, firstY = 242, secondX = 215, secondY = 243, endingX = 194, endingY = 297;
+                    ctx2.beginPath();
+                    ctx2.fillStyle = this.eyesUpDown[this.selectStyle];
+                    ctx2.arc(193, 320, 100, 6.9, 8.84);
+                    ctx2.fill();
+                    ctx2.closePath()
 
-ctx2.moveTo( startingX, startingY );
-ctx2.bezierCurveTo( firstX, firstY, secondX, secondY, endingX, endingY );
+                    var texture2 = new THREE.CanvasTexture(canvas);
+                    texture2.wrapS = THREE.RepeatWrapping;
+                    texture2.wrapT = THREE.RepeatWrapping;
+                    var roundedBoxMaterial2 = new THREE.MeshLambertMaterial({
+                        map: texture2,
+                        color: colorNormal.clone()
+                    });
 
-ctx2.moveTo( startingX + 6, startingY + 12 )
-ctx2.bezierCurveTo( firstX + 25, firstY - 7, secondX + 33, secondY + 16, endingX, endingY + 10 );
+                    let roundedBox2 = new THREE.Mesh(roundedBoxGeometry, [roundedBoxMaterial2, roundedBoxMaterial]);
+                    scene.add(roundedBox2);
 
-ctx2.moveTo( startingX + 4, startingY + 19 )
-ctx2.bezierCurveTo( firstX + 61, firstY + 4, secondX + 57, secondY + 43, endingX - 4, endingY + 16 );
+                    render();
 
-ctx2.moveTo( startingX + 2, startingY + 23 )
-ctx2.bezierCurveTo( firstX + 90, firstY + 29, secondX + 53, secondY + 76, endingX + 5, endingY + 17 );
-
-ctx2.moveTo( startingX + 9, startingY + 25 )
-ctx2.bezierCurveTo( firstX + 92, firstY + 63, secondX + 57, secondY + 97, endingX + 8, endingY + 26 );
-
-ctx2.moveTo( startingX + 7, startingY + 30 )
-ctx2.bezierCurveTo( firstX + 101, firstY + 94, secondX + 35, secondY + 131, endingX + 8, endingY + 25 );
-
-ctx2.moveTo( startingX + 7, startingY + 33 )
-ctx2.bezierCurveTo( firstX + 84, firstY + 122, secondX + 16, secondY + 148, endingX + 5, endingY + 31 );
-
-ctx2.moveTo( startingX - 3, startingY + 33 )
-ctx2.bezierCurveTo( firstX + 67, firstY + 144, secondX - 8, secondY + 156, endingX, endingY + 36 );
-
-ctx2.moveTo( startingX - 6, startingY + 30 )
-ctx2.bezierCurveTo( firstX + 37, firstY + 161, secondX - 42, secondY + 155, endingX - 3, endingY + 33 );
-
-ctx2.moveTo( startingX - 10, startingY + 31 )
-ctx2.bezierCurveTo( firstX + 8, firstY + 165, secondX - 72, secondY + 138, endingX - 7, endingY + 37 );
-
-ctx2.moveTo( startingX - 13, startingY + 31 )
-ctx2.bezierCurveTo( firstX - 25, firstY + 153, secondX - 92, secondY + 119, endingX - 15, endingY + 32 );
-
-ctx2.moveTo( startingX - 17, startingY + 25 )
-ctx2.bezierCurveTo( firstX - 49, firstY + 130, secondX - 106, secondY + 87, endingX - 20, endingY + 26 );
-
-ctx2.moveTo( startingX - 14, startingY + 16 )
-ctx2.bezierCurveTo( firstX - 68, firstY + 103, secondX - 103, secondY + 56, endingX - 18, endingY + 19 );
-
-ctx2.moveTo( startingX - 14, startingY + 14 )
-ctx2.bezierCurveTo( firstX - 70, firstY + 67, secondX - 90, secondY + 26, endingX - 16, endingY + 13 );
-
-ctx2.moveTo( startingX - 8, startingY + 14 )
-ctx2.bezierCurveTo( firstX - 57, firstY + 31, secondX - 56, secondY - 3, endingX - 13, endingY + 12 );
-
-ctx2.moveTo( startingX - 2, startingY + 14 )
-ctx2.bezierCurveTo( firstX - 33, firstY + 4, secondX - 22, secondY - 7, endingX - 9, endingY + 10 );
-
-
-
-
-        ctx2.fill();
-        ctx2.closePath()
-
-        ctx2.beginPath();
-        ctx2.lineWidth = 4;
-        ctx2.fillStyle = '#00008B';
-        ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
-        ctx2.fill()
-        ctx2.closePath();
-
-        // ctx2.beginPath();
-        // ctx2.fillStyle = 'white';
-        // ctx2.arc(193, 320, 100, 3.8, 5.65);
-        // ctx2.fill();
-        // ctx2.closePath()
-
-        // ctx2.beginPath();
-        // ctx2.fillStyle = 'white';
-        // ctx2.arc(193, 320, 100, 6.9, 8.84);
-        // ctx2.fill();
-        // ctx2.closePath()
-
-        var texture2 = new THREE.CanvasTexture(canvas);
-        texture2.wrapS = THREE.RepeatWrapping;
-        texture2.wrapT = THREE.RepeatWrapping;
-        var roundedBoxMaterial2 = new THREE.MeshLambertMaterial({
-            map: texture2,
-            color: colorNormal.clone()
-        });
-        // 歪打误撞，这里要分两批去操作
-        let roundedBox2 = new THREE.Mesh(roundedBoxGeometry, [roundedBoxMaterial2, roundedBoxMaterial]);
-        scene.add(roundedBox2);
-
-        render();
-
-        function render() {
-            requestAnimationFrame(render);
-            TWEEN.update();
-            renderer.render(scene, camera);
-        }
-
+                    function render() {
+                        requestAnimationFrame(render);
+                        TWEEN.update();
+                        renderer.render(scene, camera);
+                    }
+                }
+            }
+        })
     </script>
 </body>
 
