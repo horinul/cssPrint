@@ -17,38 +17,70 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <div :style="{'position': 'absolute', 'padding': '20px','width': isLoading?'100vw':'','height': isLoading?'100vh':''}" id="app"
-        v-loading="isLoading" :body="true">
+    <div :style="{'position': 'absolute', 'padding': '20px','width': isLoading?'100vw':'','height': isLoading?'100vh':''}"
+        id="app" v-loading="isLoading" :body="true">
+        <el-form ref="form" label-width="80px">
+            <el-form-item label="颜色模式">
+                <el-select v-model="selectModal" placeholder="请选择">
+                    <el-option key="default" label="默认切换样式" value="default">
+                    </el-option>
+                    <el-option key="customize" label="自定义选择" value="customize">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="切换样式" v-if="!isCustomize">
+                <el-radio-group v-model="selectStyle">
+                    <el-radio-button label="default"></el-radio-button>
+                    <el-radio-button label="blue"></el-radio-button>
+                    <el-radio-button label="black"></el-radio-button>
+                    <el-radio-button label="other"></el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="选择颜色" v-if="isCustomize">
+                <!-- <div> -->
+                <el-form-item label="眼睛背景色" label-width="120">
+                    <el-color-picker v-model="selectEyeBack"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="外圈线颜色" label-width="120">
+                    <el-color-picker v-model="selectLineColor"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="眼睛颜色1" label-width="120">
+                    <el-color-picker v-model="selectEyesColor[0]"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="眼睛颜色2" label-width="120">
+                    <el-color-picker v-model="selectEyesColor[1]"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="中间圆圈背景颜色" label-width="120">
+
+                    <el-color-picker v-model="selectMidCircleBac"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="整体皮肤颜色" label-width="120">
+
+                    <el-color-picker v-model="selectOverall"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="眼皮颜色" label-width="120">
+                    <el-color-picker v-model="selectEyesUpDown"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="瞳孔中间圆圈颜色" label-width="120">
+                    <el-color-picker v-model="selectCirInsideLine"></el-color-picker>
+                </el-form-item>
+                <el-form-item label="瞳孔中间圆圈颜色" label-width="120">
+                    <el-color-picker v-model="selectCirOutsideLine"></el-color-picker>
+                </el-form-item>
+                <el-button type="danger" @click="selectFinish" id="finishBtn">加载中...请稍后</el-button>
+                <!-- </div> -->
+            </el-form-item>
+
+        </el-form>
         <div>
-            颜色模式{{isCustomize}}
-            <el-select v-model="selectModal" placeholder="请选择" style="margin-left: 10px;">
-                <el-option key="default" label="默认切换样式" value="default">
-                </el-option>
-                <el-option key="customize" label="自定义选择" value="customize">
-                </el-option>
-            </el-select>
+
+
         </div>
-        <div style="margin-top: 10px;" v-if="!isCustomize">
-            切换样式
-            <el-radio-group v-model="selectStyle" style="margin-left: 10px;">
-                <el-radio-button label="default"></el-radio-button>
-                <el-radio-button label="blue"></el-radio-button>
-                <el-radio-button label="black"></el-radio-button>
-                <el-radio-button label="other"></el-radio-button>
-            </el-radio-group>
+        <div style="margin-top: 10px;">
+
+
         </div>
-        <div v-if="isCustomize">
-            眼睛背景色<el-color-picker v-model="selectEyeBack"></el-color-picker><br>
-            外圈线颜色<el-color-picker v-model="selectLineColor"></el-color-picker><br>
-            眼睛颜色1<el-color-picker v-model="selectEyesColor[0]"></el-color-picker><br>
-            眼睛颜色2<el-color-picker v-model="selectEyesColor[1]"></el-color-picker><br>
-            中间圆圈背景颜色<el-color-picker v-model="selectMidCircleBac"></el-color-picker><br>
-            整体皮肤颜色<el-color-picker v-model="selectOverall"></el-color-picker><br>
-            眼皮颜色<el-color-picker v-model="selectEyesUpDown"></el-color-picker><br>
-            瞳孔中间圆圈颜色<el-color-picker v-model="selectCirInsideLine"></el-color-picker><br>
-            瞳孔外围圆圈颜色<el-color-picker v-model="selectCirOutsideLine"></el-color-picker><br>
-            <el-button type="danger" @click="selectFinish">选择完成</el-button>
-        </div>
+
     </div>
     <script>
         var app = new Vue({
@@ -321,7 +353,7 @@
                     ctx2.beginPath();
                     ctx2.lineWidth = 4;
                     ctx2.fillStyle = this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle];
-                    console.info(this.data,this.isCustomize, this.selectEyeBack, this.eyeBack[this.selectStyle], this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle])
+                    console.info(this.data, this.isCustomize, this.selectEyeBack, this.eyeBack[this.selectStyle], this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle])
                     ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
                     ctx2.fill()
                     ctx2.closePath();
@@ -373,6 +405,11 @@
                         renderer.render(scene, camera);
                     }
                     this.isLoading = false
+
+                    console.info(document.getElementById('finishBtn'))
+                    if(this.isFirst){
+                        document.getElementById('finishBtn').innerText='颜色选择完成'
+                    }
                 }
             }
         })
