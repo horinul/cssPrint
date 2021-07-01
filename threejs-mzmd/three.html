@@ -19,7 +19,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <div style="position: absolute; padding: 20px;" id="app">
         切换样式 {{selectStyle}}
-        <el-radio-group v-model="selectStyle" @change="clickRadio">
+        <el-radio-group v-model="selectStyle">
             <el-radio-button label="default"></el-radio-button>
             <el-radio-button label="white"></el-radio-button>
             <el-radio-button label="black"></el-radio-button>
@@ -44,6 +44,7 @@
             el: '#app',
             data: {
                 selectStyle: 'default',
+                isFirst: true,
                 eyeBack: {
                     default: '#00008B',
                     white: '#fff',
@@ -102,10 +103,8 @@
             },
             watch: {
                 selectStyle(newVal, oldVal) {
-                    this.$nextTick(() => {
-                        this.init()
-                    })
-                    this.$forceUpdate();
+                    this.isFirst = false
+                    this.init()
                 }
             },
             created() {
@@ -114,9 +113,6 @@
                 })
             },
             methods: {
-                clickRadio(label) {
-                    this.init()
-                },
                 init() {
                     function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
                         let shape = new THREE.Shape();
@@ -138,6 +134,9 @@
 
                         geometry.center();
                         return geometry;
+                    }
+                    if (!this.isFirst) {
+                        document.getElementsByTagName('canvas')[0].remove()
                     }
                     var scene = new THREE.Scene();
                     var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 1000);
@@ -161,7 +160,7 @@
                     roundedBoxGeometry.computeVertexNormals();
                     roundedBoxGeometry.translate(0, 0, 0);
                     var colorNormal = new THREE.Color(this.wholeColor[this.selectStyle]);
-                    var textureLoader = new THREE.TextureLoader(); // 纹理加载器
+                    // var textureLoader = new THREE.TextureLoader(); // 纹理加载器
                     var canvas = document.createElement("canvas");
                     // var canvas = document.getElementById('canvas1')
                     canvas.width = 512;
@@ -195,6 +194,7 @@
                     ctx.closePath();
 
                     var texture = new THREE.CanvasTexture(canvas);
+                    texture.needsUpdate = true;
                     texture.wrapS = THREE.RepeatWrapping;
                     texture.wrapT = THREE.RepeatWrapping;
                     var roundedBoxMaterial = new THREE.MeshLambertMaterial({
@@ -202,14 +202,14 @@
                         color: colorNormal.clone()
                     });
 
-                    var textureLoader = new THREE.TextureLoader(); // 纹理加载器
-                    var canvas = document.createElement("canvas");
-                    // var canvas = document.getElementById('canvas2')
-                    canvas.width = 512;
-                    canvas.height = 512;
-                    var ctx2 = canvas.getContext('2d');
+                    // var textureLoader = new THREE.TextureLoader(); // 纹理加载器
+                    var canvas2 = document.createElement("canvas");
+                    // var canvas2 = document.getElementById('canvas2')
+                    canvas2.width = 512;
+                    canvas2.height = 512;
+                    var ctx2 = canvas2.getContext('2d');
                     ctx2.fillStyle = this.overall[this.selectStyle];
-                    ctx2.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
                     ctx2.beginPath();
                     ctx2.lineWidth = 2;
                     ctx2.strokeStyle = this.lineColor[this.selectStyle];
@@ -320,15 +320,17 @@
                     ctx2.fill();
                     ctx2.closePath()
 
-                    var texture2 = new THREE.CanvasTexture(canvas);
+                    var texture2 = new THREE.CanvasTexture(canvas2);
                     texture2.wrapS = THREE.RepeatWrapping;
                     texture2.wrapT = THREE.RepeatWrapping;
+                    texture2.needsUpdate = true;
                     var roundedBoxMaterial2 = new THREE.MeshLambertMaterial({
                         map: texture2,
                         color: colorNormal.clone()
                     });
 
                     let roundedBox2 = new THREE.Mesh(roundedBoxGeometry, [roundedBoxMaterial2, roundedBoxMaterial]);
+
                     scene.add(roundedBox2);
 
                     render();
