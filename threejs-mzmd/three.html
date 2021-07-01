@@ -17,9 +17,10 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <div style="position: absolute; padding: 20px;" id="app">
+    <div :style="{'position': 'absolute', 'padding': '20px','width': isLoading?'100vw':'','height': isLoading?'100vh':''}" id="app"
+        v-loading="isLoading" :body="true">
         <div>
-            颜色模式
+            颜色模式{{isCustomize}}
             <el-select v-model="selectModal" placeholder="请选择" style="margin-left: 10px;">
                 <el-option key="default" label="默认切换样式" value="default">
                 </el-option>
@@ -49,95 +50,85 @@
             <el-button type="danger" @click="selectFinish">选择完成</el-button>
         </div>
     </div>
-    <!-- <canvas id="canvas1"></canvas> -->
-    <!-- <canvas id="canvas2"></canvas> -->
-    <!-- <div v-if="isLoading" class="loading">加载中...</div> -->
-    <!-- <style>
-        .loading {
-            position: fixed;
-            left: 50%;
-            right: 50%;
-            top: 50%;
-            right: 50%;
-            min-width: 200px;
-        }
-    </style> -->
     <script>
         var app = new Vue({
             el: '#app',
-            data: {
-                selectStyle: 'default',
-                selectModal: 'default',
-
-                selectEyeBack: '#00008B',
-                selectLineColor: '#000000',
-                selectEyesColor: ["#6A5ACD", "#00BFFF"],
-                selectMidCircleBac: '#B4B0BF',
-                selectOverall: '#fff',
-                selectEyesUpDown: '#ffffff',
-                selectCirInsideLine: '#5d05f5',
-                selectCirOutsideLine: '#ccb1fa',
-
-                isFirst: true,
-                eyeBack: {
-                    default: '#00008B',
-                    blue: '#6495ED',
-                    black: '#000000',
-                    other: '#F8F8FF'
-                },
-                lineColor: {
-                    default: 'black',
-                    blue: '#E6E6FA',
-                    black: '#E1FFFF ',
-                    other: '#ffffff'
-                },
-                eyesColor: {
-                    default: ["#6A5ACD", "#00BFFF"],
-                    blue: ["#00FFFF", "#F08080"],
-                    black: ["#F0F8FF", "#00FFFF"],
-                    other: ["#4169E1", "#00FFFF"]
-                },
-                midCircleBac: {
-                    default: '#B4B0BF',
-                    blue: '#F5FFFA',
-                    black: '#000080',
-                    other: '#ffffff'
-                },
-                overall: {
-                    default: '#fff',
-                    blue: '#ADD8E6',
-                    black: '#000000',
-                    other: '#FFE4E1'
-                },
-                eyesUpDown: {
-                    default: '#ffffff',
-                    blue: '#ADD8E6',
-                    black: '#D4F2E7',
-                    other: '#FFE4E1'
-                },
-                eyesCirInsideLine: {
-                    default: '#5d05f5',
-                    blue: '#ffffff',
-                    black: '#000080',
-                    other: '#E0FFFF'
-                },
-                eyesCirOutsideLine: {
-                    default: '#ccb1fa',
-                    blue: '#ffffff',
-                    black: '#191970',
-                    other: '#FFF0F5'
-                },
+            data() {
+                return {
+                    selectStyle: 'default',
+                    selectModal: 'default',
+                    selectEyeBack: '#00008B',
+                    selectLineColor: '#000000',
+                    selectEyesColor: ["#6A5ACD", "#00BFFF"],
+                    selectMidCircleBac: '#B4B0BF',
+                    selectOverall: '#fff',
+                    selectEyesUpDown: '#ffffff',
+                    selectCirInsideLine: '#5d05f5',
+                    selectCirOutsideLine: '#ccb1fa',
+                    isFirst: true,
+                    eyeBack: {
+                        default: '#00008B',
+                        blue: '#6495ED',
+                        black: '#000000',
+                        other: '#F8F8FF'
+                    },
+                    lineColor: {
+                        default: 'black',
+                        blue: '#E6E6FA',
+                        black: '#E1FFFF ',
+                        other: '#ffffff'
+                    },
+                    eyesColor: {
+                        default: ["#6A5ACD", "#00BFFF"],
+                        blue: ["#00FFFF", "#F08080"],
+                        black: ["#F0F8FF", "#00FFFF"],
+                        other: ["#4169E1", "#00FFFF"]
+                    },
+                    midCircleBac: {
+                        default: '#B4B0BF',
+                        blue: '#F5FFFA',
+                        black: '#000080',
+                        other: '#ffffff'
+                    },
+                    overall: {
+                        default: '#fff',
+                        blue: '#ADD8E6',
+                        black: '#000000',
+                        other: '#FFE4E1'
+                    },
+                    eyesUpDown: {
+                        default: '#ffffff',
+                        blue: '#ADD8E6',
+                        black: '#D4F2E7',
+                        other: '#FFE4E1'
+                    },
+                    eyesCirInsideLine: {
+                        default: '#5d05f5',
+                        blue: '#ffffff',
+                        black: '#000080',
+                        other: '#E0FFFF'
+                    },
+                    eyesCirOutsideLine: {
+                        default: '#ccb1fa',
+                        blue: '#ffffff',
+                        black: '#191970',
+                        other: '#FFF0F5'
+                    },
+                    isLoading: '',
+                    isInit: false
+                }
             },
             watch: {
                 selectStyle(newVal, oldVal) {
                     this.isFirst = false
-                    this.init()
+                    this.isLoading = true
+                    setTimeout(() => {
+                        this.init()
+                    }, 500)
                 }
             },
             created() {
-                // this.$nextTick(() => {
                 this.init()
-                // })
             },
             computed: {
                 isCustomize() {
@@ -147,9 +138,11 @@
             methods: {
                 selectFinish() {
                     this.isFirst = false
-                    // this.$nextTick(() => {
-                    this.init()
-                    // })
+                    // this.tip()
+                    this.isLoading = true
+                    setTimeout(() => {
+                        this.init()
+                    }, 100)
                 },
                 init() {
                     function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
@@ -198,9 +191,8 @@
                     roundedBoxGeometry.computeVertexNormals();
                     roundedBoxGeometry.translate(0, 0, 0);
                     var colorNormal = new THREE.Color('#ffffff');
-                    // var textureLoader = new THREE.TextureLoader(); // 纹理加载器
                     var canvas = document.createElement("canvas");
-                    // var canvas = document.getElementById('canvas1')
+                    // var canvas = document.getElementById('canvas')
                     canvas.width = 512;
                     canvas.height = 512;
                     var ctx = canvas.getContext('2d');
@@ -240,7 +232,6 @@
                         color: colorNormal.clone()
                     });
 
-                    // var textureLoader = new THREE.TextureLoader(); // 纹理加载器
                     var canvas2 = document.createElement("canvas");
                     // var canvas2 = document.getElementById('canvas2')
                     canvas2.width = 512;
@@ -248,12 +239,14 @@
                     var ctx2 = canvas2.getContext('2d');
                     ctx2.fillStyle = this.isCustomize ? this.selectOverall : this.overall[this.selectStyle];
                     ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
+
                     ctx2.beginPath();
                     ctx2.lineWidth = 2;
                     ctx2.strokeStyle = this.isCustomize ? this.selectLineColor : this.lineColor[this.selectStyle];
                     ctx2.arc(193, 320, 185, 1, 200 * Math.PI);
                     ctx2.arc(193, 320, 140, 1, 200 * Math.PI);
                     ctx2.arc(193, 320, 100, 1, 200 * Math.PI);
+
                     ctx2.moveTo(305, 405);
                     ctx2.lineTo(340, 430);
                     ctx2.stroke();
@@ -270,7 +263,7 @@
 
                     ctx2.beginPath()
                     ctx2.lineWidth = 120
-                    ctx2.strokeStyle = this.isCustomize ? this.selectEyeback : this.eyeBack[this.selectStyle]
+                    ctx2.strokeStyle = this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle]
                     ctx2.moveTo(90, 320)
                     ctx2.lineTo(300, 320)
                     ctx2.stroke()
@@ -283,12 +276,12 @@
                     ctx2.stroke()
                     ctx2.closePath();
 
+                    ctx2.beginPath();
                     ctx2.lineWidth = 6;
                     var gradient = ctx.createLinearGradient(174, 260, 300, 300);
                     gradient.addColorStop(0, this.isCustomize ? this.selectEyesColor[0] : this.eyesColor[this.selectStyle][0]);
                     gradient.addColorStop(1, this.isCustomize ? this.selectEyesColor[1] : this.eyesColor[this.selectStyle][1]);
                     ctx2.fillStyle = gradient
-                    ctx2.beginPath();
                     var startingX = 194, startingY = 296, firstX = 178, firstY = 242, secondX = 215, secondY = 243, endingX = 194, endingY = 297;
                     ctx2.moveTo(startingX, startingY);
                     ctx2.bezierCurveTo(firstX, firstY, secondX, secondY, endingX, endingY);
@@ -327,7 +320,8 @@
 
                     ctx2.beginPath();
                     ctx2.lineWidth = 4;
-                    ctx2.fillStyle = this.isCustomize ? this.selectEyeback : this.eyeBack[this.selectStyle];
+                    ctx2.fillStyle = this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle];
+                    console.info(this.data,this.isCustomize, this.selectEyeBack, this.eyeBack[this.selectStyle], this.isCustomize ? this.selectEyeBack : this.eyeBack[this.selectStyle])
                     ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
                     ctx2.fill()
                     ctx2.closePath();
@@ -378,6 +372,7 @@
                         TWEEN.update();
                         renderer.render(scene, camera);
                     }
+                    this.isLoading = false
                 }
             }
         })
