@@ -18,13 +18,36 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <div style="position: absolute; padding: 20px;" id="app">
-        切换样式 {{selectStyle}}
-        <el-radio-group v-model="selectStyle">
-            <el-radio-button label="default"></el-radio-button>
-            <el-radio-button label="white"></el-radio-button>
-            <el-radio-button label="black"></el-radio-button>
-            <el-radio-button label="other"></el-radio-button>
-        </el-radio-group>
+        <div>
+            颜色模式
+            <el-select v-model="selectModal" placeholder="请选择" style="margin-left: 10px;">
+                <el-option key="default" label="默认切换样式" value="default">
+                </el-option>
+                <el-option key="customize" label="自定义选择" value="customize">
+                </el-option>
+            </el-select>
+        </div>
+        <div style="margin-top: 10px;" v-if="!isCustomize">
+            切换样式
+            <el-radio-group v-model="selectStyle" style="margin-left: 10px;">
+                <el-radio-button label="default"></el-radio-button>
+                <el-radio-button label="blue"></el-radio-button>
+                <el-radio-button label="black"></el-radio-button>
+                <el-radio-button label="other"></el-radio-button>
+            </el-radio-group>
+        </div>
+        <div v-if="isCustomize">
+            眼睛背景色<el-color-picker v-model="selectEyeBack"></el-color-picker><br>
+            外圈线颜色<el-color-picker v-model="selectLineColor"></el-color-picker><br>
+            眼睛颜色1<el-color-picker v-model="selectEyesColor[0]"></el-color-picker><br>
+            眼睛颜色2<el-color-picker v-model="selectEyesColor[1]"></el-color-picker><br>
+            中间圆圈背景颜色<el-color-picker v-model="selectMidCircleBac"></el-color-picker><br>
+            整体皮肤颜色<el-color-picker v-model="selectOverall"></el-color-picker><br>
+            眼皮颜色<el-color-picker v-model="selectEyesUpDown"></el-color-picker><br>
+            瞳孔中间圆圈颜色<el-color-picker v-model="selectCirInsideLine"></el-color-picker><br>
+            瞳孔外围圆圈颜色<el-color-picker v-model="selectCirOutsideLine"></el-color-picker><br>
+            <el-button type="danger" @click="selectFinish">选择完成</el-button>
+        </div>
     </div>
     <!-- <canvas id="canvas1"></canvas> -->
     <!-- <canvas id="canvas2"></canvas> -->
@@ -43,64 +66,67 @@
         var app = new Vue({
             el: '#app',
             data: {
-                selectStyle: 'other',
+                selectStyle: 'default',
+                selectModal: 'default',
+
+                selectEyeBack: '#00008B',
+                selectLineColor: '#000000',
+                selectEyesColor: ["#6A5ACD", "#00BFFF"],
+                selectMidCircleBac: '#B4B0BF',
+                selectOverall: '#fff',
+                selectEyesUpDown: '#ffffff',
+                selectCirInsideLine: '#5d05f5',
+                selectCirOutsideLine: '#ccb1fa',
+
                 isFirst: true,
                 eyeBack: {
                     default: '#00008B',
-                    white: '#6495ED',
+                    blue: '#6495ED',
                     black: '#000000',
-                    other: '#00008B'
+                    other: '#F8F8FF'
                 },
                 lineColor: {
                     default: 'black',
-                    white: '#E6E6FA',
+                    blue: '#E6E6FA',
                     black: '#E1FFFF ',
                     other: '#ffffff'
                 },
                 eyesColor: {
                     default: ["#6A5ACD", "#00BFFF"],
-                    white: ["#00FFFF", "#F08080"],
+                    blue: ["#00FFFF", "#F08080"],
                     black: ["#F0F8FF", "#00FFFF"],
                     other: ["#4169E1", "#00FFFF"]
                 },
                 midCircleBac: {
                     default: '#B4B0BF',
-                    white: '#F5FFFA',
+                    blue: '#F5FFFA',
                     black: '#000080',
                     other: '#ffffff'
                 },
                 overall: {
                     default: '#fff',
-                    white: '#ADD8E6',
+                    blue: '#ADD8E6',
                     black: '#000000',
-                    other: '#191970'
+                    other: '#FFE4E1'
                 },
                 eyesUpDown: {
-                    default: 'white',
-                    white: '#ADD8E6',
+                    default: '#ffffff',
+                    blue: '#ADD8E6',
                     black: '#D4F2E7',
-                    other: '#a3eaf0'
+                    other: '#FFE4E1'
                 },
                 eyesCirInsideLine: {
                     default: '#5d05f5',
-                    white: '#ffffff',
+                    blue: '#ffffff',
                     black: '#000080',
                     other: '#E0FFFF'
                 },
                 eyesCirOutsideLine: {
                     default: '#ccb1fa',
-                    white: '#ffffff',
+                    blue: '#ffffff',
                     black: '#191970',
-                    other: '#00008B'
+                    other: '#FFF0F5'
                 },
-                wholeColor: {
-                    default: '0xF5F5F5',
-                    // white: '#ADD8E6',
-                    white: '0xF5F5F5',
-                    black: '0xF5F5F5',
-                    other: '0xffffff'
-                },
-                // isLoading: false
             },
             watch: {
                 selectStyle(newVal, oldVal) {
@@ -109,11 +135,22 @@
                 }
             },
             created() {
-                this.$nextTick(() => {
-                    this.init()
-                })
+                // this.$nextTick(() => {
+                this.init()
+                // })
+            },
+            computed: {
+                isCustomize() {
+                    return this.selectModal === 'customize'
+                }
             },
             methods: {
+                selectFinish() {
+                    this.isFirst = false
+                    // this.$nextTick(() => {
+                    this.init()
+                    // })
+                },
                 init() {
                     function createBoxWithRoundedEdges(width, height, depth, radius0, smoothness) {
                         let shape = new THREE.Shape();
@@ -160,19 +197,19 @@
                     var roundedBoxGeometry = createBoxWithRoundedEdges(1, 1, 1, .125, 280);
                     roundedBoxGeometry.computeVertexNormals();
                     roundedBoxGeometry.translate(0, 0, 0);
-                    var colorNormal = new THREE.Color(this.wholeColor[this.selectStyle]);
+                    var colorNormal = new THREE.Color('#ffffff');
                     // var textureLoader = new THREE.TextureLoader(); // 纹理加载器
                     var canvas = document.createElement("canvas");
                     // var canvas = document.getElementById('canvas1')
                     canvas.width = 512;
                     canvas.height = 512;
                     var ctx = canvas.getContext('2d');
-                    ctx.fillStyle = this.overall[this.selectStyle];
+                    ctx.fillStyle = this.isCustomize ? this.selectOverall : this.overall[this.selectStyle];
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                     ctx.beginPath();
                     ctx.lineWidth = 3;
-                    ctx.strokeStyle = this.lineColor[this.selectStyle];
+                    ctx.strokeStyle = this.isCustomize ? this.selectLineColor : this.lineColor[this.selectStyle];
                     ctx.arc(200, 200, 190, 1, 200 * Math.PI);
                     ctx.arc(200, 200, 140, 1, 200 * Math.PI);
                     ctx.arc(200, 200, 100, 1, 200 * Math.PI);
@@ -189,7 +226,7 @@
 
                     ctx.beginPath();
                     ctx.lineWidth = 40;
-                    ctx.strokeStyle = this.midCircleBac[this.selectStyle];
+                    ctx.strokeStyle = this.isCustomize ? this.selectMidCircleBac : this.midCircleBac[this.selectStyle];
                     ctx.arc(200, 200, 120, 1, 200 * Math.PI);
                     ctx.stroke()
                     ctx.closePath();
@@ -209,11 +246,11 @@
                     canvas2.width = 512;
                     canvas2.height = 512;
                     var ctx2 = canvas2.getContext('2d');
-                    ctx2.fillStyle = this.overall[this.selectStyle];
+                    ctx2.fillStyle = this.isCustomize ? this.selectOverall : this.overall[this.selectStyle];
                     ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
                     ctx2.beginPath();
                     ctx2.lineWidth = 2;
-                    ctx2.strokeStyle = this.lineColor[this.selectStyle];
+                    ctx2.strokeStyle = this.isCustomize ? this.selectLineColor : this.lineColor[this.selectStyle];
                     ctx2.arc(193, 320, 185, 1, 200 * Math.PI);
                     ctx2.arc(193, 320, 140, 1, 200 * Math.PI);
                     ctx2.arc(193, 320, 100, 1, 200 * Math.PI);
@@ -233,7 +270,7 @@
 
                     ctx2.beginPath()
                     ctx2.lineWidth = 120
-                    ctx2.strokeStyle = this.eyeBack[this.selectStyle]
+                    ctx2.strokeStyle = this.isCustomize ? this.selectEyeback : this.eyeBack[this.selectStyle]
                     ctx2.moveTo(90, 320)
                     ctx2.lineTo(300, 320)
                     ctx2.stroke()
@@ -241,15 +278,15 @@
 
                     ctx2.beginPath();
                     ctx2.lineWidth = 40;
-                    ctx2.strokeStyle = this.midCircleBac[this.selectStyle];
+                    ctx2.strokeStyle = this.isCustomize ? this.selectMidCircleBac : this.midCircleBac[this.selectStyle];
                     ctx2.arc(193, 320, 120, 1, 200 * Math.PI);
                     ctx2.stroke()
                     ctx2.closePath();
 
                     ctx2.lineWidth = 6;
                     var gradient = ctx.createLinearGradient(174, 260, 300, 300);
-                    gradient.addColorStop(0, this.eyesColor[this.selectStyle][0]);
-                    gradient.addColorStop(1, this.eyesColor[this.selectStyle][1]);
+                    gradient.addColorStop(0, this.isCustomize ? this.selectEyesColor[0] : this.eyesColor[this.selectStyle][0]);
+                    gradient.addColorStop(1, this.isCustomize ? this.selectEyesColor[1] : this.eyesColor[this.selectStyle][1]);
                     ctx2.fillStyle = gradient
                     ctx2.beginPath();
                     var startingX = 194, startingY = 296, firstX = 178, firstY = 242, secondX = 215, secondY = 243, endingX = 194, endingY = 297;
@@ -290,33 +327,33 @@
 
                     ctx2.beginPath();
                     ctx2.lineWidth = 4;
-                    ctx2.fillStyle = this.eyeBack[this.selectStyle];
+                    ctx2.fillStyle = this.isCustomize ? this.selectEyeback : this.eyeBack[this.selectStyle];
                     ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
                     ctx2.fill()
                     ctx2.closePath();
 
                     ctx2.beginPath();
                     ctx2.lineWidth = 4;
-                    ctx2.strokeStyle = this.eyesCirInsideLine[this.selectStyle];
+                    ctx2.strokeStyle = this.isCustomize ? this.selectCirInsideLine : this.eyesCirInsideLine[this.selectStyle];
                     ctx2.arc(192, 320, 30, 1, 200 * Math.PI);
                     ctx2.stroke()
                     ctx2.closePath();
 
                     ctx2.beginPath();
                     ctx2.lineWidth = 4;
-                    ctx2.strokeStyle = this.eyesCirOutsideLine[this.selectStyle];
+                    ctx2.strokeStyle = this.isCustomize ? this.selectCirOutsideLine : this.eyesCirOutsideLine[this.selectStyle];
                     ctx2.arc(192, 320, 80, 1, 200 * Math.PI);
                     ctx2.stroke()
                     ctx2.closePath();
 
                     ctx2.beginPath();
-                    ctx2.fillStyle = this.eyesUpDown[this.selectStyle];
+                    ctx2.fillStyle = this.isCustomize ? this.selectEyesUpDown : this.eyesUpDown[this.selectStyle];
                     ctx2.arc(193, 320, 100, 3.78, 5.65);
                     ctx2.fill();
                     ctx2.closePath()
 
                     ctx2.beginPath();
-                    ctx2.fillStyle = this.eyesUpDown[this.selectStyle];
+                    ctx2.fillStyle = this.isCustomize ? this.selectEyesUpDown : this.eyesUpDown[this.selectStyle];
                     ctx2.arc(193, 320, 100, 6.9, 8.84);
                     ctx2.fill();
                     ctx2.closePath()
@@ -350,6 +387,11 @@
 <style>
     body {
         margin: 0px;
+    }
+
+    .el-color-picker {
+        vertical-align: middle;
+        padding: 5px;
     }
 </style>
 
