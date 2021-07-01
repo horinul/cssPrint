@@ -43,61 +43,62 @@
         var app = new Vue({
             el: '#app',
             data: {
-                selectStyle: 'default',
+                selectStyle: 'other',
                 isFirst: true,
                 eyeBack: {
                     default: '#00008B',
-                    white: '#fff',
-                    black: '',
-                    other: ''
+                    white: '#6495ED',
+                    black: '#000000',
+                    other: '#00008B'
                 },
                 lineColor: {
                     default: 'black',
-                    white: '#ffffff',
-                    black: '',
-                    other: ''
+                    white: '#E6E6FA',
+                    black: '#E1FFFF ',
+                    other: '#ffffff'
                 },
                 eyesColor: {
                     default: ["#6A5ACD", "#00BFFF"],
-                    white: ["#6A5ACD", "#00BFFF"],
-                    black: '',
-                    other: ''
+                    white: ["#00FFFF", "#F08080"],
+                    black: ["#F0F8FF", "#00FFFF"],
+                    other: ["#4169E1", "#00FFFF"]
                 },
                 midCircleBac: {
                     default: '#B4B0BF',
-                    white: '#ffffff',
-                    black: '',
-                    other: ''
+                    white: '#F5FFFA',
+                    black: '#000080',
+                    other: '#ffffff'
                 },
                 overall: {
                     default: '#fff',
-                    white: '#ffffff',
-                    black: '',
-                    other: ''
+                    white: '#ADD8E6',
+                    black: '#000000',
+                    other: '#191970'
                 },
                 eyesUpDown: {
                     default: 'white',
-                    white: '#ffffff',
-                    black: '',
-                    other: ''
+                    white: '#ADD8E6',
+                    black: '#D4F2E7',
+                    other: '#a3eaf0'
                 },
                 eyesCirInsideLine: {
                     default: '#5d05f5',
                     white: '#ffffff',
-                    black: '',
-                    other: ''
+                    black: '#000080',
+                    other: '#E0FFFF'
                 },
                 eyesCirOutsideLine: {
                     default: '#ccb1fa',
                     white: '#ffffff',
-                    black: '',
-                    other: ''
+                    black: '#191970',
+                    other: '#00008B'
                 },
                 wholeColor: {
                     default: '0xF5F5F5',
-                    white: '#ffffff',
-                    black: '',
-                    other: ''
+                    // white: '#ADD8E6',
+                    white: '0xF5F5F5',
+                    black: '0xF5F5F5',
+                    other: '0xffffff'
                 },
                 // isLoading: false
             },
@@ -310,7 +311,7 @@
 
                     ctx2.beginPath();
                     ctx2.fillStyle = this.eyesUpDown[this.selectStyle];
-                    ctx2.arc(193, 320, 100, 3.8, 5.65);
+                    ctx2.arc(193, 320, 100, 3.78, 5.65);
                     ctx2.fill();
                     ctx2.closePath()
 
